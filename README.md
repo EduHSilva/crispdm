@@ -74,5 +74,55 @@ As informações sobre a propriedade, como idade, condição, amenidades, histó
 financeiros relevantes, como taxas de juros, custos de manutenção, impostos podem ser relevantes para o objetivo do
 algoritmo.
 
+O ROI foi calculado: 
+```python
+    roi: float = (0.2 * idade_imovel + 0.4 * preco_anterior + 0.2 * area_total + 0.3 + taxas_juros * 0.2
+                  + 0.4 * valor_alugueis + 0.3 * custos_manutencao_anual + 0.1 * impostos_sobre_imovel + 0.1 *
+                  taxas_condominio + np.random.normal(0, 2, num_rows))
+```
+
 
 ## Data preparation
+### Codificação de atributos
+Foi necessario utilizar o LabelEncoder para tranformar os atributos não numericos. Segue trecho do codigo
+```python
+    le = LabelEncoder()
+    data_encoded = df.apply(lambda col: le.fit_transform(col) if col.dtype == 'object' else col)
+```
+
+### Divisão entre treino e teste
+Utilizado 20% para testes e 80% para treinamento dos algoritmos, conforme trecho:
+
+```python
+    x_treino, x_teste, y_treino, y_teste = train_test_split(x, y, test_size=0.2, random_state=23)
+```
+
+## Modeling
+Foi testado dois algoritmos para previsão do ROI, arvores de decisão e regresão linear, sendo a regressão a com maior precisão.
+
+```python
+def train_and_evaluate_decision_tree(x_treino_dt: pd.DataFrame, y_treino_dt: pd.Series, x_teste_dt: pd.DataFrame,
+                                     y_teste_dt: pd.Series) -> None:
+    decision_tree_model = DecisionTreeRegressor()
+    decision_tree_model.fit(x_treino_dt, y_treino_dt)
+
+    predicates = decision_tree_model.predict(x_teste_dt)
+
+    score = r2_score(y_teste_dt, predicates)
+    print("Decision tree R² Score:", score)
+
+
+def train_and_evaluate_linear_regression(x_treino_lr: pd.DataFrame, y_treino_lr: pd.Series, x_teste_lr: pd.DataFrame,
+                                         y_teste_lr: pd.Series) -> None:
+    linear_regression_model = LinearRegression()
+    linear_regression_model.fit(x_treino_lr, y_treino_lr)
+    score = linear_regression_model.score(x_teste_lr, y_teste_lr)
+    print('LinearRegression: ', score)
+```
+
+## Evaluation
+A saída das funções: 
+Decision tree R² Score: 0.9999960273775078
+LinearRegression:  0.9999999999878614
+
+## Conclusão
