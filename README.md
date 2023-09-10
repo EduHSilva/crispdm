@@ -18,8 +18,7 @@ com suporte baseado em dados e análises confiáveis.
 ### Solução Proposta:
 
 A solução proposta envolve a aplicação de modelos preditivos avançados, como regressão e análise de séries temporais,
-para prever o valor futuro de imóveis e estimar os potenciais retornos para os investidores. Além disso, por meio de uma
-dashboard intuitiva e interativa, oferecemos a capacidade de comparar várias propriedades lado a lado. Essa abordagem
+para prever o valor futuro de imóveis e estimar os potenciais retornos para os investidores. Essa abordagem
 fornece aos investidores uma visão abrangente do mercado imobiliário, permitindo que eles tomem decisões informadas e
 estratégicas em seus investimentos.
 
@@ -36,8 +35,7 @@ estratégicas em seus investimentos.
 
 ### Objetivo
 
-Treinar um modelo para prever o ROI (retorno sobre investimento) de um imóvel e gerar uma dashboard para analise de
-propriedades.
+Treinar um modelo para prever o ROI (retorno sobre investimento) de um imóvel.
 
 ## Data understanding
 
@@ -74,23 +72,27 @@ As informações sobre a propriedade, como idade, condição, amenidades, histó
 financeiros relevantes, como taxas de juros, custos de manutenção, impostos podem ser relevantes para o objetivo do
 algoritmo.
 
-O ROI foi calculado: 
+O ROI foi calculado:
+
 ```python
     roi: float = (0.2 * idade_imovel + 0.4 * preco_anterior + 0.2 * area_total + 0.3 + taxas_juros * 0.2
                   + 0.4 * valor_alugueis + 0.3 * custos_manutencao_anual + 0.1 * impostos_sobre_imovel + 0.1 *
                   taxas_condominio + np.random.normal(0, 2, num_rows))
 ```
 
-
 ## Data preparation
+
 ### Codificação de atributos
-Foi necessario utilizar o LabelEncoder para tranformar os atributos não numericos. Segue trecho do codigo
+
+Foi necessário utilizar o LabelEncoder para transformar os atributos não numéricos. Segue trecho do código:
+
 ```python
     le = LabelEncoder()
-    data_encoded = df.apply(lambda col: le.fit_transform(col) if col.dtype == 'object' else col)
+data_encoded = df.apply(lambda col: le.fit_transform(col) if col.dtype == 'object' else col)
 ```
 
 ### Divisão entre treino e teste
+
 Utilizado 20% para testes e 80% para treinamento dos algoritmos, conforme trecho:
 
 ```python
@@ -98,7 +100,9 @@ Utilizado 20% para testes e 80% para treinamento dos algoritmos, conforme trecho
 ```
 
 ## Modeling
-Foi testado dois algoritmos para previsão do ROI, arvores de decisão e regresão linear, sendo a regressão a com maior precisão.
+
+Foi testado dois algoritmos para previsão do ROI, arvores de decisão e regressão linear, sendo a regressão a com maior
+precisão.
 
 ```python
 def train_and_evaluate_decision_tree(x_treino_dt: pd.DataFrame, y_treino_dt: pd.Series, x_teste_dt: pd.DataFrame,
@@ -121,8 +125,27 @@ def train_and_evaluate_linear_regression(x_treino_lr: pd.DataFrame, y_treino_lr:
 ```
 
 ## Evaluation
-A saída das funções: 
+
+A saída das funções:
+
+```
 Decision tree R² Score: 0.9999960273775078
 LinearRegression:  0.9999999999878614
+```
 
 ## Conclusão
+
+Neste relatório, exploramos a aplicação da análise de dados para auxiliar investidores no dinâmico mercado imobiliário.
+O contexto do mercado imobiliário é complexo, com investidores buscando oportunidades sólidas e decisões estratégicas
+informadas. Nesse cenário desafiador, nossa solução, baseada na metodologia CRISP-DM, desempenha um papel crucial.
+
+Identificamos o problema enfrentado pelos investidores ao buscarem oportunidades, comparar propriedades e antecipar
+retornos. Para abordar esses desafios, propomos a aplicação de modelos preditivos, para prever o valor futuro de imóveis e estimar os potenciais retornos.
+
+Os benefícios para os investidores são claros: identificação mais precisa de oportunidades de investimento, estimativas
+confiáveis de retornos futuros, melhor compreensão do mercado imobiliário e apoio decisivo na tomada de decisões
+estratégicas.
+
+Em nossos testes, avaliamos dois modelos, árvores de decisão e regressão linear, obtendo resultados impressionantes.
+Nossos modelos demonstraram um alto grau de precisão na previsão do Retorno sobre Investimento (ROI), proporcionando aos
+investidores uma ferramenta valiosa para orientar seus investimentos.
